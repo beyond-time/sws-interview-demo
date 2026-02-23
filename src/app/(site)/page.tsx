@@ -14,33 +14,33 @@ const features = [
     icon: '⬡',
     title: 'Storyblok CMS Integration',
     description:
-      'Modular page composition via a Storyblok component registry. Blok types map 1-to-1 to typed React components. Content fetched at build time via generateStaticParams.',
+      'Modular page composition using a Storyblok component registry. Blok types map to typed React components, with content fetched at build time via generateStaticParams.',
     tags: ['REST API', 'Draft / Published', 'Component registry'],
   },
   {
     icon: '🔒',
     title: 'Secure Editor Preview',
     description:
-      'Storyblok Visual Editor requests are verified server-side using SHA-1 + timestamp freshness check before any draft content is rendered. Default-deny on any failure.',
+      'Storyblok Visual Editor requests are verified on the server (SHA-1 + timestamp freshness check) before draft content is rendered. If verification fails, draft content is not returned.',
     tags: ['SHA-1 verification', 'Server Component', 'Replay protection'],
   },
   {
     icon: '⬡',
     title: 'GraphQL + Code Generation',
     description:
-      'Typed GraphQL operations via graphql-request and GraphQL Code Generator. A typed SDK ensures queries are correct at compile time, not runtime.',
+      'Typed GraphQL operations using graphql-request and an SDK generated with GraphQL Code Generator. Types flow from the schema into the app, which helps catch many issues at compile time.',
     tags: ['graphql-request', 'TypeScript SDK', 'Storyblok GQL v2'],
   },
   {
     icon: '⚡',
     title: 'Caching & On-Demand Revalidation',
     description:
-      'SSG for CMS pages (atomic deploy via Storyblok webhook). The /gql-demo route uses "use cache" + cacheLife, with /api/revalidate endpoints making staleness observable.',
+      'CMS pages are statically generated via generateStaticParams. The /gql-demo route uses use cache + cacheTag, with /api/revalidate and a Storyblok webhook endpoint to refresh cached data on demand.',
     tags: ['use cache', 'revalidateTag', 'revalidatePath'],
   },
   {
     icon: '♿',
-    title: 'Accessibility First (WCAG AA)',
+    title: 'Accessibility Patterns (WCAG AA)',
     description:
       'Skip link, visible focus rings, one h1 per page, semantic landmarks, alt text policy, and keyboard navigation verified end-to-end. Decanter color tokens pass contrast checks.',
     tags: ['WCAG 2.0 AA', 'Keyboard nav', 'Semantic HTML'],
@@ -59,37 +59,48 @@ const labs = [
     href: '/',
     label: 'Home',
     status: 'live' as const,
-    description: 'Static demo landing page with full layout.',
+    interactive: false,
+    description: 'This page introduces the demo and explains what each section covers.',
   },
   {
     href: '/gql-demo',
     label: 'GraphQL Demo',
-    status: 'planned' as const,
-    description: 'Typed GraphQL query with observable cache timestamps.',
+    status: 'live' as const,
+    interactive: true,
+    description:
+      'The only interactive page. Run a live query against Storyblok’s GraphQL API, view cached timestamps, and trigger on-demand cache revalidation.',
   },
   {
     href: '/editor',
     label: 'Editor Preview',
-    status: 'planned' as const,
-    description: 'SHA-1 guarded route serving Storyblok draft content.',
+    status: 'live' as const,
+    interactive: false,
+    description:
+      'Explains how Storyblok Visual Editor requests are verified — SHA-1 signature + timestamp freshness — before any draft content is rendered.',
   },
   {
     href: '/accessibility-lab',
     label: 'Accessibility Lab',
-    status: 'planned' as const,
-    description: 'WCAG AA checklist rendered from Storyblok content.',
+    status: 'live' as const,
+    interactive: false,
+    description:
+      'Covers WCAG 2.0 AA patterns applied in this project: skip link, visible focus rings, one h1 per page, semantic landmarks, and alt text policy.',
   },
   {
     href: '/data-integration-lab',
     label: 'Data Integration Lab',
-    status: 'planned' as const,
-    description: 'GraphQL relations demo with typed author + article queries.',
+    status: 'live' as const,
+    interactive: false,
+    description:
+      'Shows how typed GraphQL relations connect content types (author ↔ article). Includes the query you would run and links to the live demo.',
   },
   {
     href: '/cache-revalidation-lab',
     label: 'Cache & Revalidation Lab',
-    status: 'planned' as const,
-    description: 'SSG vs ISR vs on-demand revalidation — side by side.',
+    status: 'live' as const,
+    interactive: false,
+    description:
+      'Explains SSG, tag-based, and path-based on-demand revalidation side by side. Links to the live revalidation panel to try it in practice.',
   },
 ] as const
 
@@ -222,7 +233,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Demo Labs ────────────────────────────────────────────────────── */}
+      {/* ── Pages ────────────────────────────────────────────────────────── */}
       <section
         id="demo-labs"
         className="bg-fog py-20"
@@ -233,12 +244,11 @@ export default function HomePage() {
             id="labs-heading"
             className="mb-3 text-3xl font-bold tracking-tight text-zinc-900"
           >
-            Demo labs
+            Inside the demo
           </h2>
           <p className="mb-12 text-zinc-600">
-            Each lab route demonstrates a specific integration. Routes marked{' '}
-            <strong>Planned</strong> are scaffolded and will become active once
-            the Storyblok space is configured.
+            Each page covers a specific area of the stack. Most pages explain and showcase an
+            implementation — the GraphQL Demo is the only one with live interactive functionality.
           </p>
 
           <ul
@@ -256,7 +266,14 @@ export default function HomePage() {
                     <span className="font-medium text-zinc-900">
                       {lab.label}
                     </span>
-                    <StatusBadge status={lab.status} />
+                    <div className="flex shrink-0 items-center gap-1.5">
+                      {lab.interactive && (
+                        <span className="rounded-full bg-digital-blue/10 px-2 py-0.5 text-xs font-semibold text-digital-blue">
+                          Interactive
+                        </span>
+                      )}
+                      <StatusBadge status={lab.status} />
+                    </div>
                   </div>
                   <p className="text-sm leading-relaxed text-zinc-600">
                     {lab.description}

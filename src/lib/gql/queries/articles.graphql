@@ -1,0 +1,16 @@
+query ArticleItems {
+  ArticleItems(per_page: 10, sort_by: "content.published_at:desc") {
+    items {
+      uuid
+      name
+      slug
+      full_slug
+      content {
+        title
+        excerpt
+        published_at
+      }
+    }
+    total
+  }
+}

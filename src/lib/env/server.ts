@@ -12,7 +12,7 @@ const serverEnvSchema = z.object({
   NEXT_PUBLIC_SITE_URL: z.string().url().default('http://localhost:3000'),
 
   // Storyblok delivery
-  STORYBLOK_REGION: z.enum(['eu', 'us', 'ca', 'ap', 'cn']).default('us'),
+  STORYBLOK_REGION: z.enum(['eu', 'us', 'ca', 'ap', 'cn']).default('eu'),
   STORYBLOK_PUBLIC_ACCESS_TOKEN: z.string().optional(),
   STORYBLOK_PREVIEW_ACCESS_TOKEN: z.string().optional(),
 
