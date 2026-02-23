@@ -1,26 +1,53 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ─── Stanford Design System tokens ─────────────────────────────────────────
+ * Decanter (Stanford's Tailwind preset) targets Tailwind v3. This project
+ * uses Tailwind v4, so we replicate the key brand tokens here using the v4
+ * @theme directive. When Decanter publishes v4 support, this block should be
+ * replaced by: @import "decanter/theme.css" (or the preset equivalent).
+ * See docs/adr/0002-preview-security.md for the full compatibility note.
+ * ─────────────────────────────────────────────────────────────────────────── */
+
+@theme {
+  /* Cardinal red — Stanford primary brand */
+  --color-cardinal:       #8c1515;
+  --color-cardinal-dark:  #820000;
+  --color-cardinal-light: #b83a4b;
+
+  /* Supporting palette */
+  --color-digital-blue:   #006cb8;
+  --color-lagunita:       #007c92;
+  --color-sandstone:      #d4c5a9;
+  --color-stone:          #544948;
+  --color-fog:            #f4f4f4;
+
+  /* Typography */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue",
+    Arial, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas,
+    monospace;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* ─── Base reset ─────────────────────────────────────────────────────────── */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  background-color: #fff;
+  color: #1a1a1a;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Focus visible global ───────────────────────────────────────────────── */
+
+:focus-visible {
+  outline: 2px solid #8c1515;
+  outline-offset: 2px;
+  border-radius: 2px;
 }
